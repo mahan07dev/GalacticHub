@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Galactic Hub</title>
+    <style>
+        :root {
+            --neon-blue: #0cf;
+            --neon-purple: #a0f;
+            --neon-pink: #f0f;
+            --bg-dark: #0b0b0b;
+            --card-bg: rgba(15,15,20,0.9);
+            --text-light: #ddd;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; font-family:"Segoe UI", system-ui, sans-serif; }
+        body {
+            background: var(--bg-dark); color: var(--text-light); min-height:100vh;
+            display:flex; flex-direction:column;
+            background-image: radial-gradient(circle at 50% 0%, #1a1a2a 0%, #050505 100%);
+            padding:0 0 20px; overscroll-behavior:contain;
+        }
+        /* Economy mode: flat, no animations, but keep thumbnails visible */
+        body.economy-mode {
+            background: #111 !important;
+        }
+        body.economy-mode *,
+        body.economy-mode *::before,
+        body.economy-mode *::after {
+            animation: none !important;
+            transition: none !important;
+            box-shadow: none !important;
+            backdrop-filter: none !important;
+            text-shadow: none !important;
+            border-color: #444 !important;
+            color: #ddd !important;
+        }
+        body.economy-mode .card,
+        body.economy-mode .icon-btn,
+        body.economy-mode .toast-message {
+            background: #1a1a1a !important;
+            border: 1px solid #555 !important;
+        }
+        body.economy-mode .card:hover { border-color: #888 !important; }
+        /* Thumbnail must remain visible */
+        body.economy-mode .card-media {
+            opacity: 1 !important;
+        }
+
+        header {
+            padding:1rem 2rem; text-align:center; border-bottom:1px solid var(--neon-blue);
+            box-shadow:0 0 15px rgba(0,204,255,0.15); backdrop-filter:blur(4px);
+            background:rgba(0,0,0,0.2); margin-bottom:20px;
+        }
+        h1 { font-size:2.4rem; font-weight:500; letter-spacing:2px; color:var(--neon-blue); text-shadow:0 0 8px var(--neon-blue); margin-top:20px; }
+        .version-badge { font-size:0.8rem; background:#1a1a2a; color:var(--neon-blue); padding:3px 10px; border-radius:20px; margin-right:10px; border:1px solid var(--neon-blue); }
+        .toolbar { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:12px 16px; padding:0 20px 20px; max-width:1200px; margin:0 auto; width:100%; }
+        .search-wrapper { flex:2 1 240px; position:relative; }
+        #searchBar {
+            width:100%; padding:10px 18px; font-size:1rem; background:#111; border:1px solid var(--neon-blue);
+            border-radius:40px; color:var(--neon-blue); box-shadow:inset 0 0 8px rgba(0,204,255,0.2); outline:none;
+        }
+        .clear-search { position:absolute; left:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--neon-blue); font-size:20px; cursor:pointer; opacity:0.6; display:none; }
+        #categoryDropdown {
+            padding:10px 14px; background:#111; border:1px solid var(--neon-purple); border-radius:40px;
+            color:var(--neon-purple); font-weight:500; box-shadow:inset 0 0 6px rgba(170,0,255,0.2); outline:none;
+            cursor:pointer; font-size:0.95rem;
+        }
+        .action-group { display:flex; gap:8px; align-items:center; }
+        .icon-btn {
+            background:#151525; border:1px solid var(--neon-blue); color:var(--neon-blue);
+            width:38px; height:38px; border-radius:50%; font-size:1.2rem; cursor:pointer;
+            box-shadow:0 0 6px rgba(0,204,255,0.3); display:flex; align-items:center; justify-content:center;
+        }
+        .container {
+            flex:1; padding:10px 20px; display:grid; grid-template-columns:repeat(auto-fill, minmax(260px,1fr));
+            gap:16px; max-width:1300px; margin:0 auto; width:100%;
+        }
+        .card {
+            background:var(--card-bg); backdrop-filter:blur(3px); border:1px solid rgba(0,204,255,0.25);
+            border-radius:16px; overflow:hidden; transition:0.2s ease; display:flex; flex-direction:column;
+            border-top:2px solid var(--neon-blue); height:280px; position:relative; content-visibility:auto; contain-intrinsic-size:280px;
+        }
+        .card:hover { border-color:var(--neon-purple); box-shadow:0 0 12px rgba(0,204,255,0.3); }
+        .card.featured { grid-column:1 / -1; border:2px solid var(--neon-pink); box-shadow:0 0 20px rgba(255,0,255,0.4); order:-1; }
+        .card-media {
+            height:200px; width:100%; background-size:contain; background-position:top; background-repeat:no-repeat;
+            position:absolute; top:0; border-bottom:1px solid #1e3a4d;
+        }
+        .badge-id { position:absolute; top:8px; right:8px; background:#0a0f14; color:var(--neon-blue); font-size:0.8rem; padding:3px 10px; border-radius:20px; border:1px solid var(--neon-blue); box-shadow:0 0 6px var(--neon-blue); z-index:2; }
+        .favorite-btn { position:absolute; top:8px; left:8px; width:30px; height:30px; border-radius:50%; background:rgba(20,20,30,0.8); border:1px solid var(--neon-pink); color:var(--neon-pink); display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:3; }
+        .favorite-btn.active {
+            background: var(--neon-pink);
+            color: black;
+            box-shadow: 0 0 10px var(--neon-pink);
+        }
+        .last-played-mark { position:absolute; bottom:8px; left:8px; background:rgba(0,204,255,0.8); color:#000; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:14px; z-index:3; }
+        .card-content { background:rgb(15 15 20 / 65%); position:absolute; bottom:0; width:100%; padding:14px 12px 12px; transform:translateY(60px); transition:0.25s ease; }
+        .card:hover .card-content { transform:translateY(0); }
+        .category-tag { position:absolute; left:10px; font-size:0.75rem; background:rgba(170,0,255,0.15); color:var(--neon-purple); padding:2px 12px; border-radius:20px; border:1px dashed var(--neon-purple); }
+        .size-badge { color:#aaa; font-size:0.8rem; margin-top:4px; }
+        .description { color:#aaa; font-size:0.85rem; line-height:1.4; margin-bottom:16px; display:-webkit-box; -webkit-line-clamp:2; overflow:hidden; }
+        .card-footer { display:flex; gap:6px; margin-top:auto; flex-wrap:wrap; }
+        .card button { background:#0e1419; border:1px solid var(--neon-blue); color:var(--neon-blue); padding:8px 0; font-size:0.9rem; font-weight:600; border-radius:30px; cursor:pointer; flex:1; text-transform:uppercase; letter-spacing:0.5px; }
+        .edit-btn { border-color:var(--neon-purple); color:var(--neon-purple); }
+
+        /* Modal overlay */
+        .modal-overlay {
+            position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8);
+            display:flex; align-items:center; justify-content:center; z-index:2000;
+        }
+        .modal {
+            background:#1a1a2a; border:1px solid var(--neon-blue); border-radius:16px; padding:24px;
+            width:90%; max-width:400px; box-shadow:0 0 30px rgba(0,204,255,0.3);
+        }
+        .modal input, .modal textarea { width:100%; background:#111; color:#ddd; border:1px solid var(--neon-purple); border-radius:8px; padding:12px; margin:8px 0; font-size:1rem; }
+        .modal .btn-row { display:flex; gap:10px; margin-top:12px; }
+        .modal .btn-row button { flex:1; padding:12px; border-radius:30px; border:1px solid var(--neon-blue); background:transparent; color:var(--neon-blue); font-weight:bold; cursor:pointer; }
+        .modal .btn-row button:hover { background:var(--neon-blue); color:#000; }
+
+        .toast-message { position:fixed; bottom:25px; left:20px; right:20px; max-width:500px; margin:0 auto; background:#10151a; border-left:4px solid var(--neon-blue); color:#ddd; padding:12px 20px; border-radius:40px; backdrop-filter:blur(8px); box-shadow:0 0 15px rgba(0,204,255,0.2); z-index:999; text-align:center; transform:translateY(160%); transition:transform 0.3s ease; }
+        .toast-message.show { transform:translateY(0); }
+        footer { text-align:center; padding:18px; border-top:1px solid #1e3a4d; margin-top:10px; font-size:0.9rem; color:#7f9fbf; }
+        .empty-state { grid-column:1 / -1; text-align:center; padding:50px 20px; color:var(--neon-purple); font-size:1.5rem; opacity:0.7; }
+        .load-more-container { grid-column:1 / -1; text-align:center; margin:10px 0; }
+        #loadMoreBtn { background:transparent; border:1.5px solid var(--neon-blue); color:var(--neon-blue); padding:12px 30px; border-radius:40px; cursor:pointer; box-shadow:0 0 8px rgba(0,204,255,0.3); font-weight:600; }
+        @media (max-width:600px) { h1{font-size:1.8rem} .toolbar{align-items:stretch} .card{backdrop-filter:none;box-shadow:none} }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Galactic Hub <span class="version-badge">v2.4</span></h1>
+</header>
+<div class="toolbar">
+    <div class="search-wrapper">
+        <input type="text" id="searchBar" placeholder="جستجو..." autocomplete="off">
+        <button class="clear-search" id="clearSearchBtn">✕</button>
+    </div>
+    <select id="categoryDropdown"></select>
+    <div class="action-group">
+        <button class="icon-btn" id="randomPlayBtn" title="پخش تصادفی">🎲</button>
+        <button class="icon-btn" id="favFilterBtn" title="علاقه‌مندی‌ها">★</button>
+        <button class="icon-btn" id="resetDataBtn" title="بازنشانی">↻</button>
+    </div>
+</div>
+<div class="container" id="cardsContainer"></div>
+<button id="scrollToTopBtn" style="position:fixed;bottom:25px;right:25px;width:45px;height:45px;border-radius:50%;background:var(--neon-blue);color:#000;font-size:1.4rem;display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px var(--neon-blue);cursor:pointer;z-index:1000;opacity:0;pointer-events:none;transition:0.3s;">▲</button>
+<div id="toastMessage" class="toast-message"></div>
+<footer>THE BOYS 2026©</footer>
+
+<!-- Metadata edit modal -->
+<div id="editModal" class="modal-overlay" style="display:none;">
+    <div class="modal">
+        <h3 style="color:var(--neon-blue); margin-bottom:12px;">ویرایش اطلاعات</h3>
+        <input type="text" id="editTitle" placeholder="عنوان">
+        <input type="text" id="editCategory" placeholder="دسته‌بندی">
+        <textarea id="editDescription" rows="3" placeholder="توضیحات"></textarea>
+        <div class="btn-row">
+            <button id="saveEditBtn">ذخیره</button>
+            <button id="cancelEditBtn">انصراف</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function(){"use strict";
+        const BATCH = 8; let data=[], filtered=[], category="همه", favs=new Set(), rendered=0, favOnly=false, lastPlayed=-1;
+        const cards=document.getElementById("cardsContainer"), search=document.getElementById("searchBar"), clearBtn=document.getElementById("clearSearchBtn"),
+              catDrop=document.getElementById("categoryDropdown"), resetBtn=document.getElementById("resetDataBtn"), favBtn=document.getElementById("favFilterBtn"),
+              randBtn=document.getElementById("randomPlayBtn"), toast=document.getElementById("toastMessage"), topBtn=document.getElementById("scrollToTopBtn");
+        // Modal elements
+        const editModal = document.getElementById("editModal");
+        const editTitle = document.getElementById("editTitle");
+        const editCategory = document.getElementById("editCategory");
+        const editDescription = document.getElementById("editDescription");
+        let editingId = null;
+
+        window.applyTheme = mode => document.body.classList.toggle("economy-mode", mode==="economy");
+
+        function toastMsg(msg,good=true){
+            toast.textContent=msg; toast.style.borderLeftColor=good?"var(--neon-blue)":"#f66"; toast.classList.add("show");
+            setTimeout(()=>toast.classList.remove("show"),3000);
+        }
+        function loadFavs(){ if(window.Android) favs=new Set(JSON.parse(window.Android.loadFavorites()||"[]")); }
+        function saveFavs(){ if(window.Android) window.Android.saveFavorites(JSON.stringify([...favs])); }
+        function loadLast(){ if(window.Android) lastPlayed=window.Android.getLastPlayedVideoId(); }
+        function cats(d){ return["همه",...new Set(d.map(i=>i.category).filter(Boolean))].sort(); }
+        function popDrop(cats){ catDrop.innerHTML=""; cats.forEach(c=>{ const o=document.createElement("option"); o.value=c; o.textContent=c; if(c===category)o.selected=true; catDrop.appendChild(o); }); }
+        function applyFilter(){
+            const term=search.value.trim().toLowerCase();
+            let res=data.filter(i=>{
+                if(category!=="همه"&&i.category!==category)return false;
+                if(favOnly&&!favs.has(i.id))return false;
+                if(term==="")return true;
+                if(!isNaN(term)&&term!=="")return String(i.id)===term;
+                return (i.title||"").toLowerCase().includes(term)||(i.category||"").toLowerCase().includes(term)||(i.description||"").toLowerCase().includes(term);
+            });
+            res.sort((a,b)=>{
+                const aF=favs.has(a.id)?1:0, bF=favs.has(b.id)?1:0;
+                if(aF!==bF)return bF-aF;
+                return b.id-a.id;
+            });
+            filtered=res; clearBtn.style.display=term?"block":"none";
+        }
+        function fmtSize(b){ if(typeof b!=="number")return""; return (b/(1024*1024)).toFixed(1)+" MB"; }
+        function cardHTML(item){
+            const fallbackThumb = 'data:image/svg+xml;charset=utf-8,' +
+                encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="260" height="200" fill="#1a1a2a"><rect width="260" height="200"/><text x="130" y="110" text-anchor="middle" fill="#555" font-size="18" font-family="sans-serif">بدون تصویر</text></svg>');
+            const thumb = item.thumbnail || fallbackThumb;
+            const isFav = favs.has(item.id);
+            const last = item.id === lastPlayed;
+            return `<div class="card${item.isFeatured?' featured':''}" data-id="${item.id}">
+                <div class="card-media" style="background-image:url('${thumb}')">
+                    <span class="badge-id">#${item.id}</span>
+                    <button class="favorite-btn${isFav?' active':''}" data-id="${item.id}">★</button>
+                    ${last?'<div class="last-played-mark">▶</div>':''}
+                </div>
+                <div class="card-content">
+                    <h3 title="${item.title||'بدون عنوان'}">${item.title||'عنوان'}</h3>
+                    <span class="category-tag">${item.category||'متفرقه'}</span>
+                    <div class="size-badge">${fmtSize(item.size)}</div>
+                    <p class="description">${item.description||''}</p>
+                    <div class="card-footer">
+                        <button class="open-link-btn" data-link="${encodeURIComponent(item.link||'#')}">بازکردن</button>
+                        <button class="copy-btn" data-link="${encodeURIComponent(item.link||'#')}">📋</button>
+                        <button class="edit-btn" data-id="${item.id}">✎</button>
+                    </div>
+                </div>
+            </div>`;
+        }
+        function render(reset=true){
+            if(reset){ cards.innerHTML=""; rendered=0; }
+            const frag=document.createDocumentFragment();
+            filtered.slice(rendered,rendered+BATCH).forEach(i=>frag.appendChild(document.createRange().createContextualFragment(cardHTML(i))));
+            cards.appendChild(frag); rendered+=BATCH;
+            const more=document.querySelector(".load-more-container"); if(more)more.remove();
+            if(rendered<filtered.length){
+                const d=document.createElement("div"); d.className="load-more-container";
+                const btn=document.createElement("button"); btn.id="loadMoreBtn"; btn.textContent="بارگذاری بیشتر...";
+                btn.onclick=()=>render(false); d.appendChild(btn); cards.insertAdjacentElement("afterend",d);
+            }
+            if(filtered.length===0) cards.innerHTML='<div class="empty-state">✨ موردی یافت نشد ✨</div>';
+        }
+        function resetAndRender(){ applyFilter(); rendered=0; cards.innerHTML=""; render(true); }
+        window.refreshData = function(jsonStr){
+            data=JSON.parse(jsonStr);
+            const seed=new Date().toDateString().split('').reduce((a,b)=>a+b.charCodeAt(0),0);
+            const pickIndex=seed%data.length;
+            const featured={...data[pickIndex],isFeatured:true};
+            data=[featured,...data.filter(i=>i.id!==featured.id)];
+            popDrop(cats(data.filter(i=>!i.isFeatured)));
+            resetAndRender();
+        };
+
+        // Event delegation
+        cards.addEventListener("click",e=>{
+            const playBtn=e.target.closest(".open-link-btn");
+            if(playBtn){ window.VideoPlayer.play(decodeURIComponent(playBtn.dataset.link)); return; }
+            const copyBtn=e.target.closest(".copy-btn");
+            if(copyBtn){
+                const t=decodeURIComponent(copyBtn.dataset.link);
+                if(navigator.clipboard) navigator.clipboard.writeText(t).then(()=>toastMsg("📎 لینک کپی شد"));
+                else{ const ta=document.createElement("textarea"); ta.value=t; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); document.body.removeChild(ta); toastMsg("📎 لینک کپی شد"); }
+                return;
+            }
+            const editBtn=e.target.closest(".edit-btn");
+            if(editBtn){
+                const id=+editBtn.dataset.id;
+                const item=data.find(i=>i.id===id);
+                if(!item)return;
+                editingId = id;
+                editTitle.value = item.title||"";
+                editCategory.value = item.category||"";
+                editDescription.value = item.description||"";
+                editModal.style.display = 'flex';
+                return;
+            }
+            const favBtnEl=e.target.closest(".favorite-btn");
+            if(favBtnEl){
+                const id=+favBtnEl.dataset.id;
+                favs.has(id)?favs.delete(id):favs.add(id);
+                saveFavs(); toastMsg(favs.has(id)?"⭐ افزوده شد":"☆ حذف شد");
+                resetAndRender();
+            }
+        });
+
+        // Modal buttons
+        document.getElementById("saveEditBtn").addEventListener("click", ()=>{
+            if(editingId && window.Android){
+                window.Android.saveCustomMetadata(editingId, editTitle.value, editCategory.value, editDescription.value);
+                // page will reload via native call
+            }
+            editModal.style.display = 'none';
+        });
+        document.getElementById("cancelEditBtn").addEventListener("click", ()=>{
+            editModal.style.display = 'none';
+            editingId = null;
+        });
+
+        search.addEventListener("input",()=>{ clearTimeout(search._t); search._t=setTimeout(()=>{ category=catDrop.value; resetAndRender(); },200); });
+        clearBtn.addEventListener("click",()=>{ search.value=""; resetAndRender(); });
+        catDrop.addEventListener("change",e=>{ category=e.target.value; resetAndRender(); });
+        favBtn.addEventListener("click",()=>{ favOnly=!favOnly; favBtn.classList.toggle("active",favOnly); resetAndRender(); toastMsg(favOnly?"⭐ فقط علاقه‌مندی‌ها":"📂 همه موارد"); });
+        randBtn.addEventListener("click",()=>{
+            if(!filtered.length){ toastMsg("موردی نیست",false); return; }
+            const r=filtered[Math.floor(Math.random()*filtered.length)];
+            window.VideoPlayer.play(r.link);
+        });
+        window.addEventListener("scroll",()=>{ topBtn.style.opacity=window.scrollY>300?"1":"0"; topBtn.style.pointerEvents=window.scrollY>300?"auto":"none"; },{passive:true});
+        topBtn.addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}));
+
+        // Init
+        (function init(){
+            if(!window.Android){ toastMsg("رابط اندروید در دسترس نیست",false); return; }
+            loadFavs(); loadLast();
+            applyTheme(window.Android.getThemeMode());
+            const raw=window.Android.getVideoList();
+            data=JSON.parse(raw);
+            const seed=new Date().toDateString().split('').reduce((a,b)=>a+b.charCodeAt(0),0);
+            const pickIndex=seed%data.length;
+            const featured={...data[pickIndex],isFeatured:true};
+            data=[featured,...data.filter(i=>i.id!==featured.id)];
+            popDrop(cats(data.filter(i=>!i.isFeatured)));
+            resetAndRender();
+            toastMsg(`${data.length-1} ویدیو آماده شد`);
+        })();
+    })();
+</script>
+</body>
+</html>

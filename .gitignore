@@ -1,0 +1,50 @@
+# Android Studio / IntelliJ
+*.iml
+.idea/
+!.idea/runConfigurations/
+
+# Gradle
+.gradle/
+**/build/
+
+# Local machine configuration
+local.properties
+
+# Android build / native
+captures/
+.externalNativeBuild/
+.cxx/
+
+# APKs / App Bundles
+*.apk
+*.aab
+
+# Signing keys — NEVER commit
+*.jks
+*.keystore
+*.p12
+*.pfx
+
+# Kotlin
+.kotlin/
+
+# Generated / temporary files
+*.class
+*.log
+*.tmp
+*.temp
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Profiling
+*.hprof
+
+# VS Code
+.vscode/
+
+# Firebase
+# google-services.json is intentionally NOT ignored

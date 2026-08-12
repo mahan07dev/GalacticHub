@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!-- This is a placeholder; actual file serving is handled in openFile -->
+    <files-path name="internal" path="." />
+</paths>

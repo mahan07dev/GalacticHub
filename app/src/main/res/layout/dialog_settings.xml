@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- ======= SECTION: Theme & Player ======= -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:gravity="center_horizontal"
+            android:text="⚙️ تنظیمات پایه"
+            android:textColor="#0cf"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/themeSpinner"
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:backgroundTint="#111"
+                android:popupBackground="#1a1a2a"
+                android:textAlignment="textStart"
+                android:textDirection="rtl" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/theme"
+                android:textAlignment="center"
+                android:textColor="#ddd"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
+
+            <Spinner
+                android:id="@+id/playerSpinner"
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:backgroundTint="#111"
+                android:popupBackground="#1a1a2a"
+                android:textAlignment="textStart"
+                android:textDirection="rtl" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/player"
+                android:textAlignment="center"
+                android:textColor="#ddd"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#333"
+            android:layout_marginVertical="12dp" />
+
+        <!-- ======= SECTION: OBB ======= -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:gravity="center_horizontal"
+            android:text="📦 مدیریت OBB"
+            android:textColor="#0cf"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/obbStatusText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#aaa"
+            android:textSize="14sp"
+            android:layout_marginBottom="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+
+            <Button
+                android:id="@+id/pickObbBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/pick_obb"
+                android:textAllCaps="false"
+                android:backgroundTint="#0cf"
+                android:textColor="#000" />
+
+            <Button
+                android:id="@+id/resetObbBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/reset_obb"
+                android:textAllCaps="false"
+                android:backgroundTint="#f66"
+                android:textColor="#000"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:gravity="center_horizontal"
+            android:text="راهنما: فیلم را در پوشه 'videos' بگذارید و سپس به zip (فشرده نشده) تبدیل کنید"
+            android:textColor="#0cf"
+            android:textSize="12sp" />
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#333"
+            android:layout_marginVertical="12dp" />
+
+        <!-- ======= SECTION: Metadata ======= -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:gravity="center_horizontal"
+            android:text="📝 داده‌های سفارشی"
+            android:textColor="#0cf"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+
+            <Button
+                android:id="@+id/exportMetaBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/export_metadata"
+                android:textAllCaps="false"
+                android:backgroundTint="#a0f"
+                android:textColor="#000" />
+
+            <Button
+                android:id="@+id/importMetaBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/import_metadata"
+                android:textAllCaps="false"
+                android:backgroundTint="#0cf"
+                android:textColor="#000"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#333"
+            android:layout_marginVertical="12dp" />
+
+        <!-- ======= SECTION: Security ======= -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:gravity="center_horizontal"
+            android:text="🔒 امنیت"
+            android:textColor="#0cf"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/changePasswordBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_marginStart="8dp"
+                android:backgroundTint="#a0f"
+                android:text="@string/change_password"
+                android:textAllCaps="false"
+                android:textColor="#000" />
+
+            <EditText
+                android:id="@+id/passwordEditText"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:backgroundTint="#111"
+                android:hint="رمز عبور فعلی"
+                android:inputType="text|textVisiblePassword"
+                android:paddingStart="12dp"
+                android:textColor="#ddd" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

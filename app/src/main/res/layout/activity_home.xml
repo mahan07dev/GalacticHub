@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/homeRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="#FF0B0B0B"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textSize="32sp"
+        android:textColor="#0cf"
+        android:shadowColor="#0cf"
+        android:shadowRadius="8"
+        android:letterSpacing="0.1"
+        android:fontFamily="sans-serif-light"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/home_description"
+        android:textSize="16sp"
+        android:textColor="#aaa"
+        android:gravity="center"
+        android:layout_marginBottom="40dp"
+        android:paddingHorizontal="16dp" />
+
+    <Button
+        android:id="@+id/hubButton"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:text="@string/open_hub"
+        android:textColor="#000"
+        android:backgroundTint="#0cf"
+        android:layout_marginBottom="16dp"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/settingsButton"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:text="@string/settings"
+        android:textColor="#0cf"
+        android:backgroundTint="#1a1a2a"
+        android:layout_marginBottom="16dp"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/guideButton"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:text="@string/obb_guide"
+        android:textColor="#a0f"
+        android:backgroundTint="#1a1a2a"
+        android:textAllCaps="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/copyright"
+        android:textColor="#666"
+        android:textSize="12sp"
+        android:layout_marginTop="40dp" />
+</LinearLayout>

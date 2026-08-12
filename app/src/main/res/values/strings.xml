@@ -1,0 +1,63 @@
+<resources>
+        <string name="app_name">Galactic Hub</string>
+        <string name="password_hint">رمز عبور...</string>
+        <string name="auth_title">احرازهویت</string>
+        <string name="confirm">تایید</string>
+        <string name="exit">خروج</string>
+        <string name="wrong_password">رمز عبور اشتباه است</string>
+        <string name="open_hub">مشاهده ویدیوها</string>
+        <string name="settings">تنظیمات</string>
+        <string name="obb_guide">راهنمای OBB</string>
+        <string name="home_description">به Galactic Hub خوش آمدید.\nمجموعه ویدیوهای گروه THE BOYS</string>
+        <string name="copyright">THE BOYS 2026©</string>
+        <string name="settings_title">تنظیمات</string>
+        <string name="theme">تم</string>
+        <string name="player">پخش‌کننده</string>
+        <string name="theme_dark">تاریک</string>
+        <string name="theme_economy">اقتصادی (کم‌حجم)</string>
+        <string name="player_internal">داخلی</string>
+        <string name="player_external">خارجی</string>
+        <string name="save">ذخیره</string>
+        <string name="cancel">انصراف</string>
+        <string name="settings_saved">تنظیمات ذخیره شد</string>
+        <string name="obb_guide_title">راهنمای نصب فایل OBB</string>
+        <string name="obb_guide_text">
+        ۱. یک فایل با پسوند .obb تهیه کنید.\n
+        ۲. برنامه‌ی مدیریت فایل Zarchiver را باز کن.\n
+        ۳. به پوشه‌ی زیر بروید:\n
+            Android/obb/com.mahanverse.galactichub/\n
+        ۴. اگر پوشه وجود نداشت، خودتان آن را بسازید.\n
+        ۵. فایل .obb را در آن پوشه کپی کنید.\n
+        ۶. دقت کنید نام فایل دقیقاً به صورت زیر باشد:\n
+            main.2.com.mahanverse.galactichub.obb\n
+        ۷. برنامه را ببندید و دوباره باز کنید.\n\n
+        نکته: اگر از اندروید ۱۱ به بالا استفاده می‌کنید و مشکل دارید،\n
+        از برنامه‌های مدیریت فایل با مجوز «دسترسی به همه فایل‌ها» کمک بگیرید.
+    </string>
+        <string name="got_it">متوجه شدم</string>
+        <string name="play_video">پخش ویدیو</string>
+        <string name="extracting_video">در حال استخراج ویدیو...</string>
+        <string name="cannot_play_video">پخش ویدیو ممکن نیست</string>
+        <string name="no_player_found">هیچ پخش‌کننده‌ای یافت نشد</string>
+        <string name="metadata_saved">اطلاعات ویدیو ذخیره شد</string>
+        <string name="metadata_save_error">خطا در ذخیره اطلاعات</string>
+        <string name="metadata_imported">اطلاعات سفارشی وارد شد</string>
+        <string name="metadata_import_error">خطا در وارد کردن</string>
+        <string name="metadata_exported">اطلاعات سفارشی صادر شد</string>
+        <string name="metadata_export_error">خطا در صادر کردن</string>
+        <string name="metadata_section">داده‌های سفارشی</string>
+        <string name="export_metadata">صادر کردن JSON</string>
+        <string name="import_metadata">وارد کردن JSON</string>
+        <string name="password_empty">رمز عبور نمی‌تواند خالی باشد</string>
+        <string name="password_changed">رمز عبور تغییر کرد</string>
+        <string name="password_label">رمز عبور فعلی</string>
+        <string name="change_password">تغییر</string>
+        <string name="obb_selection">فایل OBB</string>
+        <string name="pick_obb">انتخاب فایل OBB</string>
+        <string name="reset_obb">پیش‌فرض</string>
+        <string name="using_default_obb">در حال استفاده از مسیر پیش‌فرض</string>
+        <string name="external_obb_active">فایل خارجی: %s</string>
+        <string name="external_obb_set">فایل OBB خارجی تنظیم شد</string>
+        <string name="external_obb_error">خطا در بارگذاری فایل OBB</string>
+        <string name="obb_reset">به OBB پیش‌فرض بازگشتید</string>
+</resources>
